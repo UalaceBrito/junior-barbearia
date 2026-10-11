@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAvailableSlots, getService } from "@/lib/booking-server";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 export async function GET(request: NextRequest) {
+  if (isRateLimited(request, "availability", 60, 60_000)) {
+    return NextResponse.json({ error: "Muitas consultas. Tente novamente em instantes." }, {
+      status: 429,
+      headers: { "Retry-After": "60" },
+    });
+  }
   const serviceId = request.nextUrl.searchParams.get("serviceId") ?? "";
   const date = request.nextUrl.searchParams.get("date") ?? "";
 

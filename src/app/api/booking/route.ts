@@ -6,6 +6,7 @@ import {
   getService,
   type BookingInput,
 } from "@/lib/booking-server";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -105,6 +106,12 @@ async function createWithAi(input: BookingInput, duration: number) {
 export async function POST(request: NextRequest) {
   if (request.headers.get("origin") !== request.nextUrl.origin) {
     return NextResponse.json({ error: "Solicitação inválida." }, { status: 403 });
+  }
+  if (isRateLimited(request, "booking", 5, 10 * 60_000)) {
+    return NextResponse.json({ error: "Limite de solicitações atingido. Tente novamente mais tarde." }, {
+      status: 429,
+      headers: { "Retry-After": "600" },
+    });
   }
   if (!request.headers.get("content-type")?.includes("application/json")) {
     return NextResponse.json({ error: "Formato de solicitação inválido." }, { status: 415 });

@@ -1,4 +1,4 @@
-import Image from "next/image"
+import { SafeImage } from "@/components/SafeImage";
 import Link from "next/link"
 import { services } from "@/lib/services"
 
@@ -53,7 +53,7 @@ export default function Home() {
 
             <div className="hero-art">
               <div className="hero-art__frame">
-                <Image
+                <SafeImage
                   alt="Interior de barbearia com cadeiras profissionais e barbeiros atendendo clientes"
                   className="hero-art__photo"
                   height={760}
@@ -84,7 +84,7 @@ export default function Home() {
               {services.map((service, index) => (
                 <li className="service-card" key={service.id}>
                   <span className="service-card__index">0{index + 1}</span>
-                  <Image
+                  <SafeImage
                     alt={service.imageAlt}
                     className="service-card__image"
                     src={service.image}
