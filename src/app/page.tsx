@@ -147,6 +147,7 @@ export default function Home() {
               <div className="booking__details">
                 <div><span className="detail-icon" aria-hidden="true">◷</span><p><strong>Sem espera</strong><br />Atendimento com horário combinado.</p></div>
                 <div><span className="detail-icon" aria-hidden="true">◇</span><p><strong>Pagamento com tranquilidade</strong><br />Consulte as opções disponíveis ao confirmar com a equipe.</p></div>
+                <div><span className="detail-icon" aria-hidden="true">◷</span><p><strong>Horários de atendimento</strong><br />Consulte a disponibilidade atual com a equipe.</p></div>
                 <div><span className="detail-icon" aria-hidden="true">⌖</span><p><strong>Endereço</strong><br />A localização será informada pela barbearia ao confirmar.</p></div>
               </div>
             </div>
