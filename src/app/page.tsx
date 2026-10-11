@@ -1,4 +1,5 @@
-import BookingForm from "@/components/BookingForm"
+import Image from "next/image"
+import Link from "next/link"
 import { services } from "@/lib/services"
 
 function Mark({ className = "" }: { className?: string }) {
@@ -8,10 +9,6 @@ function Mark({ className = "" }: { className?: string }) {
       <path d="M15 28V14h4.5c3.5 0 5.5 1.8 5.5 4.8s-2 4.8-5.5 4.8H15m9-1 4 5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
     </svg>
   )
-}
-
-function Arrow() {
-  return <span aria-hidden="true">↗</span>
 }
 
 export default function Home() {
@@ -29,9 +26,9 @@ export default function Home() {
             <a href="#experiencia">A barbearia</a>
             <a href="#agendamento">Agendamento</a>
           </nav>
-          <a className="button button--small button--outline header-cta" href="#agendamento">
-            Marcar horário <Arrow />
-          </a>
+          <Link className="button button--small button--outline header-cta" href="/agendar">
+            Marcar horário
+          </Link>
         </div>
       </header>
 
@@ -45,8 +42,8 @@ export default function Home() {
                 Mais do que um corte: um momento seu, com atenção aos detalhes e respeito à sua identidade.
               </p>
               <div className="hero__actions">
-                <a className="button button--gold" href="#agendamento">Agende seu horário <Arrow /></a>
-                <a className="text-link" href="#servicos">Conheça os serviços <span aria-hidden="true">↓</span></a>
+                <Link className="button button--gold" href="/agendar"                >Agende seu horário</Link>
+                                <a className="text-link" href="#servicos">Conheça os serviços</a>
               </div>
               <div className="hero__proof">
                 <span className="proof-mark" aria-hidden="true">JB</span>
@@ -54,19 +51,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div aria-label="Ilustração artística de cadeira clássica de barbearia" className="hero-art" role="img">
+            <div className="hero-art">
               <div className="hero-art__frame">
-                <div className="hero-art__sun" />
-                <svg className="hero-art__chair" fill="none" viewBox="0 0 440 500">
-                  <path d="M158 103c0-20 16-36 36-36h74c20 0 36 16 36 36v115H158V103Z" fill="#46352A" stroke="#B88751" strokeWidth="3" />
-                  <path d="M158 218h146l27 57H131l27-57Z" fill="#6C4D36" stroke="#B88751" strokeWidth="3" />
-                  <path d="M146 275h170l-18 100H164l-18-100Z" fill="#3A2B23" stroke="#B88751" strokeWidth="3" />
-                  <path d="m164 375-31 77m165-77 30 77m-164-77 2 77m128-77-1 77M108 452h63m133 0h62" stroke="#B88751" strokeLinecap="round" strokeWidth="7" />
-                  <path d="M187 103h93M180 237h102M178 297h105" stroke="#CB9D68" strokeLinecap="round" strokeWidth="2" opacity=".72" />
-                  <path d="M211 67V34h42v33" stroke="#B88751" strokeWidth="3" />
-                  <circle cx="232" cy="26" r="12" fill="#B88751" />
-                </svg>
-                <div className="hero-art__caption"><span>01 / 04</span><span>O cuidado começa no detalhe</span></div>
+                <Image
+                  alt="Interior de barbearia com cadeiras profissionais e barbeiros atendendo clientes"
+                  className="hero-art__photo"
+                  height={760}
+                  priority
+                  sizes="(max-width: 680px) calc(100vw - 50px), (max-width: 980px) 44vw, 480px"
+                  src="/images/hero-barbershop.jpg"
+                  width={1000}
+                />
+                <div aria-hidden="true" className="hero-art__shade" />
+                <div className="hero-art__caption"><span>JUNIOR BARBEARIA</span><span>O cuidado começa no detalhe</span></div>
               </div>
               <span className="hero-art__stamp">DESDE<br /><strong>JB</strong></span>
             </div>
@@ -87,18 +84,23 @@ export default function Home() {
               {services.map((service, index) => (
                 <li className="service-card" key={service.id}>
                   <span className="service-card__index">0{index + 1}</span>
-                  <div className="service-card__icon" aria-hidden="true">
-                    {index === 0 ? "✳" : index === 1 ? "⌁" : index === 2 ? "✦" : "⌖"}
-                  </div>
+                  <Image
+                    alt={service.imageAlt}
+                    className="service-card__image"
+                    src={service.image}
+                    width={1100}
+                    height={760}
+                    sizes="(max-width: 680px) calc(100vw - 40px), (max-width: 980px) calc((100vw - 60px) / 2), (max-width: 1280px) calc((100vw - 112px) / 4), 280px"
+                  />
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
                   <div className="service-card__meta">
                     <span>{service.duration}</span>
                     <span>{service.priceLabel}</span>
                   </div>
-                  <a aria-label={`Agendar ${service.name}`} className="service-card__link" href="#agendamento">
-                    Escolher serviço <Arrow />
-                  </a>
+                  <Link aria-label={`Agendar ${service.name}`} className="service-card__link" href={`/agendar?servico=${service.id}`}>
+                    Escolher serviço
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -111,7 +113,6 @@ export default function Home() {
             <div className="experience__visual">
               <div className="experience__visual-inner">
                 <span className="experience__vertical">JUNIOR BARBEARIA · DESDE O PRIMEIRO CORTE</span>
-                <Mark className="experience__mark" />
                 <div className="experience__visual-copy">
                   <span>RESPEITO</span><span>À SUA</span><strong>ESSÊNCIA.</strong>
                 </div>
@@ -128,7 +129,7 @@ export default function Home() {
               <p>
                 Um espaço para desacelerar, renovar o visual e sair se sentindo você — na sua melhor versão.
               </p>
-              <a className="text-link text-link--light" href="#agendamento">Venha conhecer <Arrow /></a>
+              <Link className="text-link text-link--light" href="/agendar">Venha conhecer</Link>
               <ul className="experience__values">
                 <li><strong>01</strong><span>Escuta de verdade</span></li>
                 <li><strong>02</strong><span>Técnica cuidadosa</span></li>
@@ -143,21 +144,21 @@ export default function Home() {
             <div className="booking__copy">
               <p className="eyebrow"><span className="eyebrow__line" /> SEU PRÓXIMO HORÁRIO</p>
               <h2 id="booking-title">O próximo passo é <span>seu.</span></h2>
-              <p>Escolha o serviço, indique um dia e horário. A equipe confirma a disponibilidade diretamente com você.</p>
+              <p>Converse com nosso assistente, consulte os horários disponíveis e confirme seu agendamento.</p>
               <div className="booking__details">
-                <div><span className="detail-icon" aria-hidden="true">◷</span><p><strong>Sem espera</strong><br />Atendimento com horário combinado.</p></div>
-                <div><span className="detail-icon" aria-hidden="true">◇</span><p><strong>Pagamento com tranquilidade</strong><br />Consulte as opções disponíveis ao confirmar com a equipe.</p></div>
-                <div><span className="detail-icon" aria-hidden="true">◷</span><p><strong>Horários de atendimento</strong><br />Consulte a disponibilidade atual com a equipe.</p></div>
-                <div><span className="detail-icon" aria-hidden="true">⌖</span><p><strong>Endereço</strong><br />A localização será informada pela barbearia ao confirmar.</p></div>
+                <div><p><strong>Sem espera</strong><br />Atendimento com horário combinado.</p></div>
+                <div><p><strong>Pagamento com tranquilidade</strong><br />Consulte as opções disponíveis ao confirmar com a equipe.</p></div>
+                <div><p><strong>Horários de atendimento</strong><br />Consulte a disponibilidade atual com a equipe.</p></div>
+                <div><p><strong>Endereço</strong><br />A localização será informada pela barbearia ao confirmar.</p></div>
               </div>
             </div>
-            <div className="booking-panel">
+            <div className="booking-panel booking-panel--callout">
               <div className="booking-panel__heading">
-                <div><span className="eyebrow">RESERVA</span><h3>Solicite seu horário</h3></div>
-                <span aria-hidden="true" className="booking-panel__step">01 — 04</span>
+                <div><span className="eyebrow">RESERVA ONLINE</span><h3>Encontre seu próximo horário</h3></div>
+                <span aria-hidden="true" className="booking-panel__step">JB</span>
               </div>
-              <BookingForm />
-              <p className="booking-panel__notice">A solicitação não confirma automaticamente um horário. Aguarde a resposta da equipe.</p>
+              <p className="booking-panel__notice">Escolha o serviço, o dia e um horário livre. Sua reserva só é confirmada quando registrada na agenda.</p>
+              <Link className="button button--gold booking-panel__cta" href="/agendar">Começar agendamento</Link>
             </div>
           </div>
         </section>
@@ -170,7 +171,7 @@ export default function Home() {
             <span className="brand__name">JUNIOR<span>BARBEARIA</span></span>
           </a>
           <p>Seu estilo, com presença.<br />Seu momento, com cuidado.</p>
-          <a className="button button--gold button--small" href="#agendamento">Marcar horário <Arrow /></a>
+          <Link className="button button--gold button--small" href="/agendar">Marcar horário</Link>
         </div>
         <div className="container site-footer__bottom">
           <span>© Junior Barbearia. Todos os direitos reservados.</span>

@@ -32,3 +32,12 @@ npm start
 - O formulário não persiste dados no site. Nome, serviço, data e horário só são enviados ao WhatsApp quando a pessoa abre e envia a mensagem.
 - A CSP nonce-based e os headers de segurança são configurados em `src/proxy.ts` e `next.config.ts`.
 - Rate limiting, agenda persistente e pagamento hospedado devem ser implementados antes de aceitar reservas ou pagamentos automaticamente.
+
+## Imagens dos serviços
+
+As imagens estão no repositório e são servidas localmente pelo `next/image`, sem requisições a hosts externos na página:
+
+- Foto do topo: Pexels, foto `1813272`, disponível sob a [licença Pexels](https://www.pexels.com/license/).
+- Fotos dos serviços: Unsplash (`photo-1621605815971-fbc98d665033`, `photo-1599351431202-1e0f0137899a`, `photo-1503951914875-452162b0f3f1` e `photo-1622286342621-4bd786c2447c`).
+
+As imagens são referências de banco de imagens; substitua-as por fotos próprias do estabelecimento e da equipe para representar a Junior Barbearia com fidelidade.
